@@ -13,8 +13,10 @@ import type { Schema } from "../../amplify/data/resource";
 
 const client = generateClient<Schema>();
 
+type Engineer = Schema['Engineer']['type'];
+
 export function ResourceDashboard() {
-  const [engineers, setEngineers] = useState<any[]>([]);
+  const [engineers, setEngineers] = useState<Engineer[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,7 +52,7 @@ export function ResourceDashboard() {
                   {engineer.name}
                 </Text>
                 <Flex gap="0.5rem">
-                  {engineer.skills?.map((skill: string) => (
+                  {engineer.skills?.filter(m => m).map((skill) => (
                     <Badge key={skill} variation="info">
                       {skill}
                     </Badge>
@@ -61,7 +63,7 @@ export function ResourceDashboard() {
                 {engineer.availability ? "Available" : "Assigned"}
               </Badge>
             </Flex>
-            {engineer.currentProject && (
+            {engineer.currentProjectId && (
               <Text variation="secondary">
                 Current Project: {engineer.currentProject.name}
               </Text>

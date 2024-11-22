@@ -1,22 +1,22 @@
 import { createTheme, defaultTheme } from '@aws-amplify/ui-react';
 
-export const awsTheme = createTheme({
-  name: 'aws-theme',
+export const theme = createTheme({
+  name: 'reinvent-theme',
   tokens: {
     colors: {
       background: {
-        primary: { value: '#232f3e' }, // Dark blue AWS background
-        secondary: { value: '#0d1117' }, // Darker shade for contrast
+        primary: { value: '#232f3e' },
+        secondary: { value: '#0d1117' },
       },
       brand: {
-        primary: { value: '#00a1c9' }, // AWS cyan
-        secondary: { value: '#e41c5f' }, // Magenta accent
+        primary: { value: '#00a1c9' },
+        secondary: { value: '#e41c5f' },
       },
       font: {
         primary: { value: '#ffffff' },
         secondary: { value: '#d1d5db' },
         tertiary: { value: '#9ca3af' },
-        interactive: { value: '#00a1c9' }, // Cyan for interactive elements
+        interactive: { value: '#00a1c9' },
       },
       border: {
         primary: { value: '#30363d' },
@@ -69,4 +69,4 @@ export const awsTheme = createTheme({
       large: { value: '2rem' }
     }
   }
-});
+}, defaultTheme);
