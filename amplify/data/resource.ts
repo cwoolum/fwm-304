@@ -17,6 +17,7 @@ const schema = a.schema({
     endDate: a.date().required(),
     requiredSkills: a.string().array(),
     engineers: a.hasMany("Engineer", "currentProjectId"),
+    status: a.enum(["PLANNED", "IN_PROGRESS", "COMPLETED"]),
   })
     .authorization((allow) => allow.authenticated()),
 
@@ -25,6 +26,7 @@ const schema = a.schema({
     engineer: a.belongsTo("Engineer", "engineerId"),
     startDate: a.date().required(),
     endDate: a.date().required(),
+    type: a.enum(["VACATION", "SICK", "HOLIDAY"]),
   })
     .authorization((allow) => allow.authenticated()),
 
@@ -54,6 +56,24 @@ const schema = a.schema({
     ],
   })
     .authorization((allow) => allow.owner()),
+  analyzeStaffing: a
+    .generation({
+      aiModel: a.ai.model('Claude 3 Sonnet'),
+      systemPrompt:
+        "You analyze project staffing requirements and generate structured recommendations.",
+    })
+    .arguments({
+      projectId: a.string(),
+      targetDate: a.string(),
+    })
+    .returns(
+      a.customType({
+        requiredHeadcount: a.integer(),
+        missingSkills: a.string().array(),
+        riskLevel: a.enum(["LOW", "MEDIUM", "HIGH"]),
+        recommendations: a.string().array(),
+      })
+    ),
 });
 
 export type Schema = ClientSchema<typeof schema>;

@@ -9,11 +9,11 @@ import {
 import "@aws-amplify/ui-react/styles.css";
 import { ResourceDashboard } from "./components/ResourceDashboard";
 import { AIPlanner } from "./components/AIPlanner";
-import { awsTheme } from "./theme";
+import { theme } from "./theme";
 
 function App() {
   return (
-    <ThemeProvider theme={awsTheme}>
+    <ThemeProvider theme={theme}>
       <Authenticator>
         {({ signOut }) => (
           <View padding="1rem">
