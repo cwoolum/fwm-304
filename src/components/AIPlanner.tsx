@@ -20,6 +20,7 @@ const { useAIConversation, useAIGeneration } = createAIHooks(client);
 
 export function AIPlanner() {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [selectedTab, setSelectedTab] = useState("assistant");
   const [projects, setProjects] = useState<Schema["Project"]["type"][]>([]);
 
   useEffect(() => {
@@ -52,6 +53,8 @@ export function AIPlanner() {
   return (
     <Card>
       <Tabs
+        onValueChange={(e) => setSelectedTab(e)}
+        value={selectedTab}
         items={[
           {
             label: "AI Assistant",
