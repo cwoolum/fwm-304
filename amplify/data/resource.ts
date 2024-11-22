@@ -29,7 +29,7 @@ const schema = a.schema({
     .authorization((allow) => allow.authenticated()),
 
   resourceChat: a.conversation({
-    aiModel: a.ai.model('Claude 3 Haiku'),
+    aiModel: a.ai.model('Claude 3 Sonnet'),
     systemPrompt: `You are a resource planning assistant. Help analyze project staffing,
     timeline impacts, and resource allocation. Provide concise and helpful responses.`,
     tools: [
