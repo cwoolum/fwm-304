@@ -65,7 +65,7 @@ export function AIPlanner() {
                   <AIConversation
                     messages={messages}
                     handleSendMessage={sendMessage}
-                    placeholder="Ask about resource planning..."
+
                   />
                 </ScrollView>
 
@@ -78,7 +78,7 @@ export function AIPlanner() {
                       key={question}
                       variation="primary"
                       fontSize="0.9rem"
-                      onClick={() => sendMessage(question)}
+                      onClick={() => sendMessage({ content: [{ text: question }] })}
                       style={{ textDecoration: "underline" }}
                     >
                       {question}
@@ -140,7 +140,7 @@ export function AIPlanner() {
             ),
           },
         ]}
-      ></Tabs>
-    </Card>
+      ></Tabs >
+    </Card >
   );
 }
