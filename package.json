@@ -39,7 +39,8 @@
     "aws-amplify": "^6.8.2",
     "engineer-allocation-tool": "file:",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1"
   },
   "overrides": {
     "@aws-amplify/graphql-api-construct": "1.18.3-ai-next.0"

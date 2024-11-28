@@ -1,4 +1,13 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
+import { defineConversationHandlerFunction } from '@aws-amplify/backend-ai/conversation';
+
+export const getWeather = defineConversationHandlerFunction({
+  name: 'analyzeStaffing',
+  entry: './tools/analyzeStaffing.ts',
+  models: [
+    { modelId: a.ai.model("Claude 3 Sonnet") }
+  ]
+});
 
 const schema = a.schema({
   Engineer: a.model({
@@ -29,11 +38,24 @@ const schema = a.schema({
     type: a.enum(["VACATION", "SICK", "HOLIDAY"]),
   })
     .authorization((allow) => allow.authenticated()),
-
+  AnalyzeStaffingResponse: a.customType({
+    requiredHeadcount: a.integer(),
+    missingSkills: a.string().array(),
+    riskLevel: a.enum(["LOW", "MEDIUM", "HIGH"]),
+    recommendations: a.string().array(),
+  }),
   resourceChat: a.conversation({
     aiModel: a.ai.model('Claude 3 Sonnet'),
-    systemPrompt: `You are a resource planning assistant. Help analyze project staffing,
-    timeline impacts, and resource allocation. Provide concise and helpful responses.`,
+    systemPrompt: `You are a specialized resource planning assistant for engineering teams.
+Your role is to:
+- Analyze project staffing and provide recommendations
+- Identify potential scheduling conflicts
+- Suggest optimal resource allocation based on skills and availability
+- Calculate project timeline impacts
+Always provide concise, actionable responses focused on resource planning.
+Do not make up any information about engineers, projects, or time off.
+Use a UI component tool whenever possible, but don't tell the user you are using a tool.
+The current date is ${new Date().toLocaleDateString()}`,
     tools: [
       a.ai.dataTool({
         name: "list_engineers",
@@ -52,28 +74,11 @@ const schema = a.schema({
         description: "Provides data about time off for engineers",
         model: a.ref("TimeOff"),
         modelOperation: 'list',
+
       }),
     ],
   })
     .authorization((allow) => allow.owner()),
-  analyzeStaffing: a
-    .generation({
-      aiModel: a.ai.model('Claude 3 Sonnet'),
-      systemPrompt:
-        "You analyze project staffing requirements and generate structured recommendations.",
-    })
-    .arguments({
-      projectId: a.string(),
-      targetDate: a.string(),
-    })
-    .returns(
-      a.customType({
-        requiredHeadcount: a.integer(),
-        missingSkills: a.string().array(),
-        riskLevel: a.enum(["LOW", "MEDIUM", "HIGH"]),
-        recommendations: a.string().array(),
-      })
-    ),
 });
 
 export type Schema = ClientSchema<typeof schema>;
