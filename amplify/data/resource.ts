@@ -1,14 +1,6 @@
 import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
 import { defineConversationHandlerFunction } from '@aws-amplify/backend-ai/conversation';
 
-export const getWeather = defineConversationHandlerFunction({
-  name: 'analyzeStaffing',
-  entry: './tools/analyzeStaffing.ts',
-  models: [
-    { modelId: a.ai.model("Claude 3 Sonnet") }
-  ]
-});
-
 const schema = a.schema({
   Engineer: a.model({
     name: a.string().required(),
@@ -74,7 +66,6 @@ The current date is ${new Date().toLocaleDateString()}`,
         description: "Provides data about time off for engineers",
         model: a.ref("TimeOff"),
         modelOperation: 'list',
-
       }),
     ],
   })
