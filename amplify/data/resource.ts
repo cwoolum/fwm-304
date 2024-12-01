@@ -1,9 +1,9 @@
 import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
 import { defineConversationHandlerFunction } from '@aws-amplify/backend-ai/conversation';
 
-export const getWeather = defineConversationHandlerFunction({
-  name: 'analyzeStaffing',
-  entry: './tools/analyzeStaffing.ts',
+export const conversationHandler = defineConversationHandlerFunction({
+  name: 'custom-conversation-handler',
+  entry: './timeline-predictor.ts',
   models: [
     { modelId: a.ai.model("Claude 3 Sonnet") }
   ]
@@ -38,12 +38,14 @@ const schema = a.schema({
     type: a.enum(["VACATION", "SICK", "HOLIDAY"]),
   })
     .authorization((allow) => allow.authenticated()),
+
   AnalyzeStaffingResponse: a.customType({
     requiredHeadcount: a.integer(),
     missingSkills: a.string().array(),
     riskLevel: a.enum(["LOW", "MEDIUM", "HIGH"]),
     recommendations: a.string().array(),
   }),
+
   resourceChat: a.conversation({
     aiModel: a.ai.model('Claude 3 Sonnet'),
     systemPrompt: `You are a specialized resource planning assistant for engineering teams.
