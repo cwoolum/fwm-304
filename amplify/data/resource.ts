@@ -1,6 +1,14 @@
 import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
 import { defineConversationHandlerFunction } from '@aws-amplify/backend-ai/conversation';
 
+export const conversationHandler = defineConversationHandlerFunction({
+  name: 'resourceManagementTool',
+  entry: './resourceManagementTool.ts',
+  models: [
+    { modelId: a.ai.model("Claude 3 Sonnet") }
+  ]
+});
+
 const schema = a.schema({
   Engineer: a.model({
     name: a.string().required(),
@@ -48,6 +56,7 @@ Always provide concise, actionable responses focused on resource planning.
 Do not make up any information about engineers, projects, or time off.
 Use a UI component tool whenever possible, but don't tell the user you are using a tool.
 The current date is ${new Date().toLocaleDateString()}`,
+    handler: conversationHandler,
     tools: [
       a.ai.dataTool({
         name: "list_engineers",
