@@ -1,3 +1,4 @@
+// src/test-data.ts
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../amplify/data/resource";
 
@@ -40,32 +41,31 @@ async function createTestData() {
       name: "Jane Smith",
       skills: ["React", "TypeScript", "Node.js", "UI/UX"],
       availability: true,
-
-      currentProjectId: projects[0].data?.id,
+      projectId: projects[0].data?.id,
     }),
     client.models.Engineer.create({
       name: "John Davis",
       skills: ["React Native", "TypeScript", "Mobile Design", "iOS"],
       availability: true,
-      currentProjectId: projects[1].data?.id,
+      projectId: projects[1].data?.id,
     }),
     client.models.Engineer.create({
       name: "Maria Garcia",
       skills: ["Node.js", "AWS", "DevOps", "Python"],
       availability: false,
-      currentProjectId: projects[2].data?.id,
+      projectId: projects[2].data?.id,
     }),
     client.models.Engineer.create({
       name: "Alex Chen",
       skills: ["React", "AWS", "Database", "API Design"],
       availability: true,
-      currentProjectId: projects[1].data?.id,
+      projectId: projects[1].data?.id,
     }),
     client.models.Engineer.create({
       name: "Sarah Johnson",
       skills: ["UI/UX", "React", "Mobile Design", "TypeScript"],
       availability: true,
-      currentProjectId: projects[0].data?.id,
+      projectId: projects[0].data?.id,
     }),
   ]);
 
@@ -121,11 +121,11 @@ async function createTestData() {
   };
 }
 
-// Run this in your browser console to create test data
 declare global {
   interface Window {
     createTestData: typeof createTestData;
   }
 }
 
+// Run "createTestData" in your browser console to create test data
 window.createTestData = createTestData;

@@ -75,13 +75,13 @@ export function ResourceDashboard() {
                           ))}
                         </Flex>
                       </Flex>
-                      <Badge variation={engineer.availability ? "success" : "error"}>
-                        {engineer.availability ? "Available" : "Assigned"}
+                      <Badge variation={!engineer.projectId ? "success" : "error"}>
+                        {!engineer.projectId ? "Available" : "Assigned"}
                       </Badge>
                     </Flex>
-                    {engineer.currentProjectId && (
+                    {engineer.projectId && (
                       <Text variation="secondary">
-                        Current Project: {projects.filter(m => m.id === engineer.currentProjectId)?.[0].name}
+                        Current Project: {projects.filter(m => m.id === engineer.projectId)?.[0].name}
                       </Text>
                     )}
                   </Card>
